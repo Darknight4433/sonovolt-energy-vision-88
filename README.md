@@ -43,8 +43,8 @@ src/
 
 ## Contributers
 1. Darknight4433
-2. DEVIL-009
-3. Rishi.R.S
+2. Rishi.R.S
+3. DEVIL-00
 
 ## License
 
