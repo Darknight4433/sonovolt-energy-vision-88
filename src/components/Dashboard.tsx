@@ -1,28 +1,17 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Zap, Volume2, TrendingUp, MapPin, AlertTriangle, CheckCircle } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { useEnergyData, useLocations, useDashboardStats } from '../hooks/useApi';
+import LoadingSpinner from './LoadingSpinner';
 
 const Dashboard = () => {
-  const energyData = [
-    { time: '00:00', energy: 2.4, noise: 45 },
-    { time: '04:00', energy: 1.8, noise: 35 },
-    { time: '08:00', energy: 4.2, noise: 65 },
-    { time: '12:00', energy: 3.8, noise: 58 },
-    { time: '16:00', energy: 5.1, noise: 72 },
-    { time: '20:00', energy: 3.2, noise: 52 },
-  ];
-
-  const locations = [
-    { name: 'Kochi Metro', energy: 5.8, noise: 85, status: 'high', devices: 15 },
-    { name: 'Thiruvananthapuram Bus Terminal', energy: 4.2, noise: 72, status: 'optimal', devices: 12 },
-    { name: 'Kozhikode Railway Station', energy: 3.8, noise: 68, status: 'optimal', devices: 10 },
-    { name: 'Thrissur Cultural Centre', energy: 2.9, noise: 58, status: 'optimal', devices: 8 },
-    { name: 'Alappuzha Boat Jetty', energy: 2.1, noise: 45, status: 'low', devices: 6 },
-    { name: 'Palakkad Market', energy: 3.5, noise: 62, status: 'optimal', devices: 9 },
-  ];
+  const { data: energyData, isLoading: energyLoading, error: energyError } = useEnergyData();
+  const { data: locations, isLoading: locationsLoading, error: locationsError } = useLocations();
+  const { data: stats, isLoading: statsLoading, error: statsError } = useDashboardStats();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -42,6 +31,18 @@ const Dashboard = () => {
     }
   };
 
+  if (energyError || locationsError || statsError) {
+    return (
+      <div className="text-center py-20">
+        <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
+        <h2 className="text-xl font-bold mb-2">Error Loading Dashboard</h2>
+        <p className="text-muted-foreground">
+          Unable to fetch data from the server. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Header Stats */}
@@ -52,11 +53,17 @@ const Dashboard = () => {
             <Zap className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">22.3 kWh</div>
-            <p className="text-xs text-muted-foreground">
-              <TrendingUp className="inline w-3 h-3 mr-1" />
-              +15% from yesterday
-            </p>
+            {statsLoading ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold text-primary">{stats?.totalEnergyGenerated || 0} kWh</div>
+                <p className="text-xs text-muted-foreground">
+                  <TrendingUp className="inline w-3 h-3 mr-1" />
+                  +15% from yesterday
+                </p>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -66,10 +73,16 @@ const Dashboard = () => {
             <Volume2 className="h-4 w-4 text-sound" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">65.0 dB</div>
-            <p className="text-xs text-muted-foreground">
-              Across Kerala locations
-            </p>
+            {statsLoading ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold">{stats?.averageNoiseLevel || 0} dB</div>
+                <p className="text-xs text-muted-foreground">
+                  Across Kerala locations
+                </p>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -79,11 +92,17 @@ const Dashboard = () => {
             <MapPin className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">60</div>
-            <p className="text-xs text-success">
-              <CheckCircle className="inline w-3 h-3 mr-1" />
-              All systems operational
-            </p>
+            {statsLoading ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold">{stats?.activeDevices || 0}</div>
+                <p className="text-xs text-success">
+                  <CheckCircle className="inline w-3 h-3 mr-1" />
+                  All systems operational
+                </p>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -93,8 +112,14 @@ const Dashboard = () => {
             <TrendingUp className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">92.8%</div>
-            <Progress value={92.8} className="mt-2" />
+            {statsLoading ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold">{stats?.efficiencyRate || 0}%</div>
+                <Progress value={stats?.efficiencyRate || 0} className="mt-2" />
+              </>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -106,27 +131,33 @@ const Dashboard = () => {
             <CardTitle>Energy Generation Over Time</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={energyData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
-                  }} 
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="energy" 
-                  stroke="hsl(var(--primary))" 
-                  strokeWidth={3}
-                  dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            {energyLoading ? (
+              <div className="h-[300px] flex items-center justify-center">
+                <LoadingSpinner />
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={energyData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))', 
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px'
+                    }} 
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="energy" 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={3}
+                    dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
           </CardContent>
         </Card>
 
@@ -135,28 +166,34 @@ const Dashboard = () => {
             <CardTitle>Noise Levels by Kerala Areas</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={locations}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis 
-                  dataKey="name" 
-                  stroke="hsl(var(--muted-foreground))" 
-                  angle={-45}
-                  textAnchor="end"
-                  height={80}
-                  fontSize={11}
-                />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
-                  }} 
-                />
-                <Bar dataKey="noise" fill="hsl(var(--sound))" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            {locationsLoading ? (
+              <div className="h-[300px] flex items-center justify-center">
+                <LoadingSpinner />
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={locations}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis 
+                    dataKey="name" 
+                    stroke="hsl(var(--muted-foreground))" 
+                    angle={-45}
+                    textAnchor="end"
+                    height={80}
+                    fontSize={11}
+                  />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))', 
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px'
+                    }} 
+                  />
+                  <Bar dataKey="noise" fill="hsl(var(--sound))" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -167,32 +204,38 @@ const Dashboard = () => {
           <CardTitle>Kerala Location Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {locations.map((location, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-secondary/50 rounded-lg">
-                <div className="flex items-center space-x-4">
-                  {getStatusIcon(location.status)}
-                  <div>
-                    <h3 className="font-medium">{location.name}</h3>
-                    <p className="text-sm text-muted-foreground">{location.devices} active devices</p>
+          {locationsLoading ? (
+            <div className="flex justify-center py-8">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {locations?.map((location, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-secondary/50 rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    {getStatusIcon(location.status)}
+                    <div>
+                      <h3 className="font-medium">{location.name}</h3>
+                      <p className="text-sm text-muted-foreground">{location.devices} active devices</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-6">
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground">Energy</p>
+                      <p className="font-bold text-primary">{location.energy} kW</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground">Noise</p>
+                      <p className="font-bold">{location.noise} dB</p>
+                    </div>
+                    <Badge variant="outline" className={getStatusColor(location.status)}>
+                      {location.status}
+                    </Badge>
                   </div>
                 </div>
-                <div className="flex items-center space-x-6">
-                  <div className="text-center">
-                    <p className="text-sm text-muted-foreground">Energy</p>
-                    <p className="font-bold text-primary">{location.energy} kW</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-sm text-muted-foreground">Noise</p>
-                    <p className="font-bold">{location.noise} dB</p>
-                  </div>
-                  <Badge variant="outline" className={getStatusColor(location.status)}>
-                    {location.status}
-                  </Badge>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

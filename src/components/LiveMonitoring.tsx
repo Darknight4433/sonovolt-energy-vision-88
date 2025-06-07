@@ -4,10 +4,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Volume2, Zap, Activity, Pause, Play, RefreshCw } from 'lucide-react';
+import { useLiveSensorData } from '../hooks/useApi';
+import { useWebSocket } from '../hooks/useWebSocket';
+import LoadingSpinner from './LoadingSpinner';
+import { SensorData } from '../types';
 
 const LiveMonitoring = () => {
   const [isLive, setIsLive] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
+  
+  const { data: sensorData, isLoading, error, refetch } = useLiveSensorData();
+  
+  // WebSocket for real-time updates (fallback to API polling if WebSocket fails)
+  const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3000/sensors';
+  const { data: liveData, connected: wsConnected } = useWebSocket<SensorData[]>(WS_URL);
+
+  // Use WebSocket data if available, otherwise use API data
+  const displayData = wsConnected && liveData ? liveData : sensorData;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -15,57 +28,6 @@ const LiveMonitoring = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  const sensorData = [
-    { 
-      id: 'ST-001', 
-      location: 'Central School - Main Entrance',
-      noise: 67.2, 
-      energy: 4.3, 
-      status: 'active',
-      lastUpdate: '2 sec ago'
-    },
-    { 
-      id: 'ST-002', 
-      location: 'Bus Terminal - Platform A',
-      noise: 82.1, 
-      energy: 6.1, 
-      status: 'active',
-      lastUpdate: '1 sec ago'
-    },
-    { 
-      id: 'ST-003', 
-      location: 'City Hospital - Ambulance Bay',
-      noise: 45.8, 
-      energy: 2.9, 
-      status: 'active',
-      lastUpdate: '3 sec ago'
-    },
-    { 
-      id: 'ST-004', 
-      location: 'Main Square - Central Area',
-      noise: 59.4, 
-      energy: 3.7, 
-      status: 'active',
-      lastUpdate: '1 sec ago'
-    },
-    { 
-      id: 'ST-005', 
-      location: 'Highway Junction - Overpass',
-      noise: 73.6, 
-      energy: 5.2, 
-      status: 'maintenance',
-      lastUpdate: '15 min ago'
-    },
-    { 
-      id: 'ST-006', 
-      location: 'University Campus - Library',
-      noise: 38.2, 
-      energy: 1.8, 
-      status: 'active',
-      lastUpdate: '2 sec ago'
-    },
-  ];
 
   const getNoiseLevel = (noise: number) => {
     if (noise < 50) return { level: 'Low', color: 'text-success', bg: 'bg-success/20' };
@@ -101,6 +63,21 @@ const LiveMonitoring = () => {
     );
   };
 
+  if (error) {
+    return (
+      <div className="text-center py-20">
+        <h2 className="text-xl font-bold mb-2">Error Loading Live Data</h2>
+        <p className="text-muted-foreground mb-4">
+          Unable to fetch sensor data. Please try again.
+        </p>
+        <Button onClick={() => refetch()} variant="outline">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Header Controls */}
@@ -109,6 +86,7 @@ const LiveMonitoring = () => {
           <h1 className="text-3xl font-bold">Live Monitoring</h1>
           <p className="text-muted-foreground">
             Real-time noise levels and energy generation
+            {wsConnected && <span className="text-success ml-2">(WebSocket Connected)</span>}
           </p>
         </div>
         <div className="flex items-center space-x-4">
@@ -123,7 +101,7 @@ const LiveMonitoring = () => {
             {isLive ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
             {isLive ? 'Pause' : 'Resume'}
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
             <RefreshCw className="w-4 h-4 mr-2" />
             Refresh
           </Button>
@@ -139,87 +117,98 @@ const LiveMonitoring = () => {
               <h3 className="font-semibold">System Status</h3>
               <p className="text-sm text-muted-foreground">
                 {isLive ? 'Live monitoring active' : 'Monitoring paused'}
+                {wsConnected && ' • WebSocket connected'}
               </p>
             </div>
           </div>
           <div className="flex items-center space-x-6">
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Total Sensors</p>
-              <p className="text-2xl font-bold">6</p>
+              <p className="text-2xl font-bold">{displayData?.length || 0}</p>
             </div>
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Active</p>
-              <p className="text-2xl font-bold text-success">5</p>
+              <p className="text-2xl font-bold text-success">
+                {displayData?.filter(s => s.status === 'active').length || 0}
+              </p>
             </div>
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Maintenance</p>
-              <p className="text-2xl font-bold text-warning">1</p>
+              <p className="text-2xl font-bold text-warning">
+                {displayData?.filter(s => s.status === 'maintenance').length || 0}
+              </p>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Sensor Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {sensorData.map((sensor) => {
-          const noiseInfo = getNoiseLevel(sensor.noise);
-          return (
-            <Card key={sensor.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-lg">{sensor.id}</CardTitle>
-                    <p className="text-sm text-muted-foreground">{sensor.location}</p>
-                  </div>
-                  <Badge className={getStatusColor(sensor.status)}>
-                    {sensor.status}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Sound Visualization */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Volume2 className="w-5 h-5 text-sound" />
-                    <span className="font-medium">Noise Level</span>
-                  </div>
-                  <SoundWaveVisualizer noise={sensor.noise} />
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className={`p-3 rounded-lg ${noiseInfo.bg}`}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Sound</span>
-                      <Activity className="w-4 h-4 text-sound" />
+      {isLoading ? (
+        <div className="flex justify-center py-20">
+          <LoadingSpinner size="lg" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {displayData?.map((sensor) => {
+            const noiseInfo = getNoiseLevel(sensor.noise);
+            return (
+              <Card key={sensor.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-lg">{sensor.id}</CardTitle>
+                      <p className="text-sm text-muted-foreground">{sensor.location}</p>
                     </div>
-                    <div className="mt-1">
-                      <span className="text-2xl font-bold">{sensor.noise}</span>
-                      <span className="text-sm text-muted-foreground ml-1">dB</span>
-                    </div>
-                    <Badge variant="outline" className={`mt-2 ${noiseInfo.color}`}>
-                      {noiseInfo.level}
+                    <Badge className={getStatusColor(sensor.status)}>
+                      {sensor.status}
                     </Badge>
                   </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Sound Visualization */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Volume2 className="w-5 h-5 text-sound" />
+                      <span className="font-medium">Noise Level</span>
+                    </div>
+                    <SoundWaveVisualizer noise={sensor.noise} />
+                  </div>
                   
-                  <div className="p-3 rounded-lg bg-primary/20">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Energy</span>
-                      <Zap className="w-4 h-4 text-primary" />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className={`p-3 rounded-lg ${noiseInfo.bg}`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Sound</span>
+                        <Activity className="w-4 h-4 text-sound" />
+                      </div>
+                      <div className="mt-1">
+                        <span className="text-2xl font-bold">{sensor.noise}</span>
+                        <span className="text-sm text-muted-foreground ml-1">dB</span>
+                      </div>
+                      <Badge variant="outline" className={`mt-2 ${noiseInfo.color}`}>
+                        {noiseInfo.level}
+                      </Badge>
                     </div>
-                    <div className="mt-1">
-                      <span className="text-2xl font-bold text-primary">{sensor.energy}</span>
-                      <span className="text-sm text-muted-foreground ml-1">kW</span>
-                    </div>
-                    <div className="mt-2 text-xs text-muted-foreground">
-                      Updated {sensor.lastUpdate}
+                    
+                    <div className="p-3 rounded-lg bg-primary/20">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Energy</span>
+                        <Zap className="w-4 h-4 text-primary" />
+                      </div>
+                      <div className="mt-1">
+                        <span className="text-2xl font-bold text-primary">{sensor.energy}</span>
+                        <span className="text-sm text-muted-foreground ml-1">kW</span>
+                      </div>
+                      <div className="mt-2 text-xs text-muted-foreground">
+                        Updated {sensor.lastUpdate}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
