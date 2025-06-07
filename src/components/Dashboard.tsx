@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -17,10 +16,12 @@ const Dashboard = () => {
   ];
 
   const locations = [
-    { name: 'Central School', energy: 4.2, noise: 68, status: 'optimal', devices: 12 },
-    { name: 'Bus Terminal', energy: 5.8, noise: 85, status: 'high', devices: 8 },
-    { name: 'City Hospital', energy: 2.1, noise: 42, status: 'low', devices: 6 },
-    { name: 'Main Square', energy: 3.5, noise: 59, status: 'optimal', devices: 15 },
+    { name: 'Kochi Metro', energy: 5.8, noise: 85, status: 'high', devices: 15 },
+    { name: 'Thiruvananthapuram Bus Terminal', energy: 4.2, noise: 72, status: 'optimal', devices: 12 },
+    { name: 'Kozhikode Railway Station', energy: 3.8, noise: 68, status: 'optimal', devices: 10 },
+    { name: 'Thrissur Cultural Centre', energy: 2.9, noise: 58, status: 'optimal', devices: 8 },
+    { name: 'Alappuzha Boat Jetty', energy: 2.1, noise: 45, status: 'low', devices: 6 },
+    { name: 'Palakkad Market', energy: 3.5, noise: 62, status: 'optimal', devices: 9 },
   ];
 
   const getStatusColor = (status: string) => {
@@ -51,10 +52,10 @@ const Dashboard = () => {
             <Zap className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">15.8 kWh</div>
+            <div className="text-2xl font-bold text-primary">22.3 kWh</div>
             <p className="text-xs text-muted-foreground">
               <TrendingUp className="inline w-3 h-3 mr-1" />
-              +12% from yesterday
+              +15% from yesterday
             </p>
           </CardContent>
         </Card>
@@ -65,9 +66,9 @@ const Dashboard = () => {
             <Volume2 className="h-4 w-4 text-sound" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">63.5 dB</div>
+            <div className="text-2xl font-bold">65.0 dB</div>
             <p className="text-xs text-muted-foreground">
-              Across all locations
+              Across Kerala locations
             </p>
           </CardContent>
         </Card>
@@ -78,7 +79,7 @@ const Dashboard = () => {
             <MapPin className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">41</div>
+            <div className="text-2xl font-bold">60</div>
             <p className="text-xs text-success">
               <CheckCircle className="inline w-3 h-3 mr-1" />
               All systems operational
@@ -92,8 +93,8 @@ const Dashboard = () => {
             <TrendingUp className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">94.2%</div>
-            <Progress value={94.2} className="mt-2" />
+            <div className="text-2xl font-bold">92.8%</div>
+            <Progress value={92.8} className="mt-2" />
           </CardContent>
         </Card>
       </div>
@@ -131,13 +132,20 @@ const Dashboard = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Noise Levels by Location</CardTitle>
+            <CardTitle>Noise Levels by Kerala Areas</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={locations}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
+                <XAxis 
+                  dataKey="name" 
+                  stroke="hsl(var(--muted-foreground))" 
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                  fontSize={11}
+                />
                 <YAxis stroke="hsl(var(--muted-foreground))" />
                 <Tooltip 
                   contentStyle={{ 
@@ -156,7 +164,7 @@ const Dashboard = () => {
       {/* Location Status */}
       <Card>
         <CardHeader>
-          <CardTitle>Location Overview</CardTitle>
+          <CardTitle>Kerala Location Overview</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
