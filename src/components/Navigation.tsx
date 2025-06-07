@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Zap, BarChart3, Settings, Users, BookOpen, Bell } from 'lucide-react';
+import { Zap, BarChart3, Settings, Users, BookOpen, Bell, LogIn } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
   const location = useLocation();
@@ -20,12 +21,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-energy to-sound rounded-lg flex items-center justify-center">
                 <Zap className="w-5 h-5 text-black" />
               </div>
               <span className="text-xl font-bold text-energy">SONOVOLT</span>
-            </div>
+            </Link>
             
             <div className="hidden md:flex space-x-4">
               {navItems.map((item) => {
@@ -54,6 +55,14 @@ const Navigation = () => {
               <Bell className="w-5 h-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-warning rounded-full"></span>
             </button>
+            
+            <Link to="/signin">
+              <Button variant="outline" size="sm" className="flex items-center space-x-2">
+                <LogIn className="w-4 h-4" />
+                <span>Sign In</span>
+              </Button>
+            </Link>
+            
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full"></div>
           </div>
         </div>

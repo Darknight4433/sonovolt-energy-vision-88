@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Index from "./pages/Index";
+import SignIn from "./pages/SignIn";
 import LiveMonitoring from "./components/LiveMonitoring";
 import Education from "./components/Education";
 import NotFound from "./pages/NotFound";
@@ -23,6 +24,7 @@ const App = () => (
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/signin" element={<SignIn />} />
               <Route path="/monitoring" element={<LiveMonitoring />} />
               <Route path="/education" element={<Education />} />
               {/* Placeholder routes for future development */}
