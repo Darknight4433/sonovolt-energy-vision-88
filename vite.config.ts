@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
   server: {
-    host: true, // ✅ This exposes to local network (like 192.168.10.40)
+    host: true, 
     port: 8080,
   },
   plugins: [
