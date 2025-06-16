@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Zap, BarChart3, Settings, Users, BookOpen, Bell, LogIn } from 'lucide-react';
+import { Zap, BarChart3, Settings, Users, BookOpen, Bell, LogIn, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
@@ -14,6 +13,7 @@ const Navigation = () => {
     { path: '/analytics', label: 'Analytics', icon: BarChart3 },
     { path: '/users', label: 'Users', icon: Users },
     { path: '/education', label: 'Education', icon: BookOpen },
+    { path: '/about', label: 'About', icon: Info },
   ];
 
   return (
