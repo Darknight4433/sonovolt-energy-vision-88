@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Github, ExternalLink, Code, Database, Zap, BarChart3, Smartphone, Cloud } from 'lucide-react';
+import { Github, ExternalLink, Code, Database, Zap, BarChart3, Smartphone, Cloud, Waves, Speaker, Battery, Settings } from 'lucide-react';
 
 const About = () => {
   const techStack = [
@@ -37,10 +38,37 @@ const About = () => {
     }
   ];
 
+  const workingPrinciple = [
+    {
+      title: 'Sound Wave Capture',
+      description: 'Piezoelectric sensors (Sonic Tiles) capture ambient noise and sound waves from traffic, machinery, and urban environments.',
+      icon: Waves,
+      details: 'Our sensors convert mechanical vibrations from sound waves into electrical energy using piezoelectric materials.'
+    },
+    {
+      title: 'Energy Conversion',
+      description: 'Multiple energy harvesting technologies work together: Piezoelectric generators, TENG (Triboelectric) layers, Linear generators, and Acoustic resonators.',
+      icon: Battery,
+      details: 'Each technology captures different aspects of sound energy, maximizing overall conversion efficiency.'
+    },
+    {
+      title: 'Data Processing',
+      description: 'Real-time monitoring systems process noise levels, energy output, and environmental conditions.',
+      icon: Settings,
+      details: 'Advanced algorithms optimize energy capture and predict generation patterns based on noise patterns.'
+    },
+    {
+      title: 'Energy Storage & Distribution',
+      description: 'Generated energy is stored in batteries and can power small devices or feed into local grids.',
+      icon: Zap,
+      details: 'Smart power management ensures optimal energy utilization and grid integration.'
+    }
+  ];
+
   const contributors = [
-    'Darknight4433',
-    'Rishi.R.S',
-    'DEVIL-00'
+    'Vaishanvi L',
+    'Rishi R S',
+    'Devanandan SS'
   ];
 
   return (
@@ -57,6 +85,68 @@ const About = () => {
           Sound Energy Management System - A comprehensive web application for monitoring, managing, and visualizing energy harvested from noise pollution across Kerala, India.
         </p>
       </div>
+
+      {/* How SONOVOLT Works */}
+      <Card className="border-2 border-primary/20">
+        <CardHeader>
+          <CardTitle className="text-3xl text-center flex items-center justify-center space-x-3">
+            <Speaker className="w-8 h-8 text-primary" />
+            <span>How SONOVOLT Works</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {workingPrinciple.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <Card key={index} className="border-primary/30 bg-gradient-to-br from-card to-primary/5">
+                  <CardHeader>
+                    <div className="flex items-center space-x-3">
+                      <div className="p-3 bg-primary/20 rounded-lg">
+                        <Icon className="w-6 h-6 text-primary" />
+                      </div>
+                      <CardTitle className="text-lg">{step.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <p className="text-muted-foreground">{step.description}</p>
+                    <div className="p-3 bg-secondary/50 rounded-lg">
+                      <p className="text-sm font-medium text-primary">{step.details}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Energy Harvesting Technologies */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-2xl">Energy Harvesting Technologies</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 rounded-lg">
+              <h3 className="font-bold text-lg mb-2">Piezoelectric Generators</h3>
+              <p className="text-sm">Convert mechanical stress from sound waves directly into electrical energy using crystal materials.</p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 rounded-lg">
+              <h3 className="font-bold text-lg mb-2">TENG Layers</h3>
+              <p className="text-sm">Triboelectric nanogenerators harvest energy from contact and separation of materials due to sound vibrations.</p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 rounded-lg">
+              <h3 className="font-bold text-lg mb-2">Linear Generators</h3>
+              <p className="text-sm">Electromagnetic induction systems that convert linear motion from sound waves into electrical power.</p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 rounded-lg">
+              <h3 className="font-bold text-lg mb-2">Acoustic Resonators</h3>
+              <p className="text-sm">Specialized chambers that amplify specific sound frequencies to maximize energy capture efficiency.</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* GitHub Section */}
       <div className="flex justify-center space-x-4">
