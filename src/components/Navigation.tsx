@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Zap, BarChart3, Settings, Users, BookOpen, Bell, LogIn, Info } from 'lucide-react';
@@ -22,10 +23,11 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-energy to-sound rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-black" />
-              </div>
-              <span className="text-xl font-bold text-energy">SONOVOLT</span>
+              <img 
+                src="/lovable-uploads/5c4e8790-16c8-429f-a2d4-4994a0138e83.png" 
+                alt="SONOVOLT" 
+                className="h-8"
+              />
             </Link>
             
             <div className="hidden md:flex space-x-4">
