@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -7,6 +6,7 @@ import { Zap, Volume2, TrendingUp, MapPin, AlertTriangle, CheckCircle } from 'lu
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { useEnergyData, useLocations, useDashboardStats } from '../hooks/useApi';
 import LoadingSpinner from './LoadingSpinner';
+import GeneratorCards from './GeneratorCards';
 
 const Dashboard = () => {
   const { data: energyData, isLoading: energyLoading, error: energyError } = useEnergyData();
@@ -122,6 +122,12 @@ const Dashboard = () => {
             )}
           </CardContent>
         </Card>
+      </div>
+
+      {/* Generator Cards Section */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Multi-Technology Energy Output</h2>
+        <GeneratorCards />
       </div>
 
       {/* Charts Section */}

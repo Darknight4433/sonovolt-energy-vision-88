@@ -47,3 +47,14 @@ export const useDashboardStats = () => {
     staleTime: 3000,
   });
 };
+
+export const useGeneratorData = () => {
+  return useQuery({
+    queryKey: ['generatorData'],
+    queryFn: USE_MOCK_DATA ? 
+      () => Promise.resolve(mockData.generatorData) : 
+      apiService.getGeneratorData,
+    refetchInterval: 5000,
+    staleTime: 3000,
+  });
+};

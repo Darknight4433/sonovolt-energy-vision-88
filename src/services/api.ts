@@ -1,5 +1,5 @@
 
-import { EnergyData, Location, SensorData, DashboardStats, ApiResponse } from '../types';
+import { EnergyData, Location, SensorData, DashboardStats, GeneratorData, ApiResponse } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
@@ -36,6 +36,11 @@ class ApiService {
   // Get dashboard stats
   async getDashboardStats(): Promise<DashboardStats> {
     return this.fetchWithErrorHandling<DashboardStats>('/dashboard/stats');
+  }
+
+  // Get generator data
+  async getGeneratorData(): Promise<GeneratorData[]> {
+    return this.fetchWithErrorHandling<GeneratorData[]>('/generators');
   }
 
   // Submit sensor reading (for future use)
@@ -143,5 +148,40 @@ export const mockData = {
     averageNoiseLevel: 65.0,
     activeDevices: 60,
     efficiencyRate: 92.8,
-  }
+  },
+
+  generatorData: [
+    {
+      id: 'GEN-001',
+      name: 'Piezo Output',
+      energy: 12.8,
+      description: 'High voltage, low current',
+      status: 'active' as const,
+      icon: 'zap'
+    },
+    {
+      id: 'GEN-002',
+      name: 'TENG Layer',
+      energy: 7.2,
+      description: 'Friction energy capture',
+      status: 'active' as const,
+      icon: 'waves'
+    },
+    {
+      id: 'GEN-003',
+      name: 'Linear Generator',
+      energy: 2.3,
+      description: 'Electromagnetic boost',
+      status: 'active' as const,
+      icon: 'circle'
+    },
+    {
+      id: 'GEN-004',
+      name: 'Acoustic Resonator',
+      energy: 4.1,
+      description: 'Sound wave conversion',
+      status: 'active' as const,
+      icon: 'speaker'
+    }
+  ]
 };

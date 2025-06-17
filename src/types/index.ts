@@ -24,6 +24,15 @@ export interface SensorData {
   timestamp: string;
 }
 
+export interface GeneratorData {
+  id: string;
+  name: string;
+  energy: number;
+  description: string;
+  status: 'active' | 'maintenance' | 'offline';
+  icon: string;
+}
+
 export interface DashboardStats {
   totalEnergyGenerated: number;
   averageNoiseLevel: number;
