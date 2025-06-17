@@ -22,12 +22,11 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <Link to="/" className="flex items-center space-x-2">
-              <img 
-                src="/lovable-uploads/5c4e8790-16c8-429f-a2d4-4994a0138e83.png" 
-                alt="SONOVOLT" 
-                className="h-8"
-              />
+            <Link to="/" className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-energy to-sound rounded-lg flex items-center justify-center">
+                <Zap className="w-6 h-6 text-black" />
+              </div>
+              <span className="text-xl font-bold text-energy">SONOVOLT</span>
             </Link>
             
             <div className="hidden md:flex space-x-4">
