@@ -2,233 +2,186 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Github, ExternalLink, Code, Database, Zap, BarChart3, Smartphone, Cloud, Waves, Speaker, Battery, Settings } from 'lucide-react';
+import { Zap, Users, Target, Award, Github, Linkedin, Mail } from 'lucide-react';
 
 const About = () => {
-  const techStack = [
-    { name: 'React 18', icon: Code, description: 'Modern UI framework' },
-    { name: 'TypeScript', icon: Code, description: 'Type-safe development' },
-    { name: 'Tailwind CSS', icon: Code, description: 'Utility-first styling' },
-    { name: 'Recharts', icon: BarChart3, description: 'Data visualization' },
-    { name: 'TanStack Query', icon: Database, description: 'Data fetching' },
-    { name: 'WebSocket', icon: Cloud, description: 'Real-time updates' }
-  ];
-
-  const features = [
-    {
-      title: 'Real-time Dashboard',
-      description: 'Monitor energy generation and noise levels across Kerala locations',
-      icon: BarChart3
-    },
-    {
-      title: 'Live Monitoring',
-      description: 'Real-time sensor data with WebSocket support for instant updates',
-      icon: Zap
-    },
-    {
-      title: 'Kerala Locations',
-      description: 'Track multiple monitoring points across Kerala with interactive maps',
-      icon: Database
-    },
-    {
-      title: 'Responsive Design',
-      description: 'Works seamlessly on desktop and mobile devices',
-      icon: Smartphone
-    }
-  ];
-
-  const workingPrinciple = [
-    {
-      title: 'Sound Wave Capture',
-      description: 'Piezoelectric sensors (Sonic Tiles) capture ambient noise and sound waves from traffic, machinery, and urban environments.',
-      icon: Waves,
-      details: 'Our sensors convert mechanical vibrations from sound waves into electrical energy using piezoelectric materials.'
-    },
-    {
-      title: 'Energy Conversion',
-      description: 'Multiple energy harvesting technologies work together: Piezoelectric generators, TENG (Triboelectric) layers, Linear generators, and Acoustic resonators.',
-      icon: Battery,
-      details: 'Each technology captures different aspects of sound energy, maximizing overall conversion efficiency.'
-    },
-    {
-      title: 'Data Processing',
-      description: 'Real-time monitoring systems process noise levels, energy output, and environmental conditions.',
-      icon: Settings,
-      details: 'Advanced algorithms optimize energy capture and predict generation patterns based on noise patterns.'
-    },
-    {
-      title: 'Energy Storage & Distribution',
-      description: 'Generated energy is stored in batteries and can power small devices or feed into local grids.',
-      icon: Zap,
-      details: 'Smart power management ensures optimal energy utilization and grid integration.'
-    }
-  ];
-
   const contributors = [
-    'Vaishanvi L',
-    'Rishi R S',
-    'Devanandan SS'
+    {
+      name: 'Vaishanvi L',
+      role: 'Lead Developer',
+      description: 'Full-stack development and system architecture',
+      avatar: 'V'
+    },
+    {
+      name: 'Rishi R S',
+      role: 'Hardware Engineer',
+      description: 'Sensor integration and hardware optimization',
+      avatar: 'R'
+    },
+    {
+      name: 'Devanandan SS',
+      role: 'Data Scientist',
+      description: 'Analytics and machine learning implementation',
+      avatar: 'D'
+    },
+    {
+      name: 'Niranjan Manu',
+      role: 'Research Engineer',
+      description: 'Energy harvesting research and development',
+      avatar: 'N'
+    }
   ];
 
   return (
     <div className="space-y-8">
-      {/* Header Section */}
+      {/* Header */}
       <div className="text-center space-y-4">
-        <div className="flex justify-center items-center space-x-3 mb-4">
-          <div className="w-12 h-12 bg-gradient-to-br from-energy to-sound rounded-lg flex items-center justify-center">
-            <Zap className="w-7 h-7 text-black" />
-          </div>
-          <h1 className="text-4xl font-bold text-energy">SONOVOLT</h1>
+        <div className="flex items-center justify-center space-x-3">
+          <Zap className="w-8 h-8 text-primary" />
+          <h1 className="text-3xl font-bold">About SONOVOLT</h1>
         </div>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Sound Energy Management System - A comprehensive web application for monitoring, managing, and visualizing energy harvested from noise pollution across Kerala, India.
+        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          Revolutionary hybrid energy harvesting technology that transforms ambient noise and vibrations 
+          into clean, renewable electricity through advanced acoustic and mechanical energy conversion.
         </p>
       </div>
 
       {/* How SONOVOLT Works */}
-      <Card className="border-2 border-primary/20">
+      <Card className="border-primary/20">
         <CardHeader>
-          <CardTitle className="text-3xl text-center flex items-center justify-center space-x-3">
-            <Speaker className="w-8 h-8 text-primary" />
-            <span>How SONOVOLT Works</span>
+          <CardTitle className="flex items-center space-x-2">
+            <Zap className="w-6 h-6 text-primary" />
+            <span>How SONOVOLT Technology Works</span>
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {workingPrinciple.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <Card key={index} className="border-primary/30 bg-gradient-to-br from-card to-primary/5">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-3 bg-primary/20 rounded-lg">
-                        <Icon className="w-6 h-6 text-primary" />
-                      </div>
-                      <CardTitle className="text-lg">{step.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <p className="text-muted-foreground">{step.description}</p>
-                    <div className="p-3 bg-secondary/50 rounded-lg">
-                      <p className="text-sm font-medium text-primary">{step.details}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-primary">Multi-Layer Energy Harvesting</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-secondary/50 rounded-lg">
+                  <h4 className="font-medium text-blue-600">Piezoelectric Layer</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Converts mechanical pressure and vibrations from sound waves into electrical energy 
+                    through crystal deformation. Generates high voltage, low current output.
+                  </p>
+                </div>
+                <div className="p-3 bg-secondary/50 rounded-lg">
+                  <h4 className="font-medium text-orange-600">TENG (Triboelectric) Layer</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Harnesses friction energy from air movement and surface contact. Captures energy 
+                    from wind, traffic vibrations, and human movement through electrostatic induction.
+                  </p>
+                </div>
+                <div className="p-3 bg-secondary/50 rounded-lg">
+                  <h4 className="font-medium text-red-600">Linear Electromagnetic Generator</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Uses magnetic induction to convert mechanical motion into electricity. Optimized 
+                    for low-frequency vibrations common in urban environments.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-primary">Advanced Energy Management</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-secondary/50 rounded-lg">
+                  <h4 className="font-medium">Acoustic Resonance Optimization</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Smart frequency tuning maximizes energy capture from specific noise patterns. 
+                    Adaptive algorithms adjust resonance to match environmental conditions.
+                  </p>
+                </div>
+                <div className="p-3 bg-secondary/50 rounded-lg">
+                  <h4 className="font-medium">Power Conditioning Circuit</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Converts variable AC output to stable DC power. Includes voltage regulation, 
+                    energy storage, and load management for consistent power delivery.
+                  </p>
+                </div>
+                <div className="p-3 bg-secondary/50 rounded-lg">
+                  <h4 className="font-medium">IoT Integration</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Real-time monitoring and control through wireless sensors. Remote diagnostics, 
+                    performance optimization, and predictive maintenance capabilities.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Energy Harvesting Technologies */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Energy Harvesting Technologies</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 rounded-lg">
-              <h3 className="font-bold text-lg mb-2">Piezoelectric Generators</h3>
-              <p className="text-sm">Convert mechanical stress from sound waves directly into electrical energy using crystal materials.</p>
-            </div>
-            <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 rounded-lg">
-              <h3 className="font-bold text-lg mb-2">TENG Layers</h3>
-              <p className="text-sm">Triboelectric nanogenerators harvest energy from contact and separation of materials due to sound vibrations.</p>
-            </div>
-            <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 rounded-lg">
-              <h3 className="font-bold text-lg mb-2">Linear Generators</h3>
-              <p className="text-sm">Electromagnetic induction systems that convert linear motion from sound waves into electrical power.</p>
-            </div>
-            <div className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 rounded-lg">
-              <h3 className="font-bold text-lg mb-2">Acoustic Resonators</h3>
-              <p className="text-sm">Specialized chambers that amplify specific sound frequencies to maximize energy capture efficiency.</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* GitHub Section */}
-      <div className="flex justify-center space-x-4">
-        <Button variant="outline" size="lg">
-          <Github className="w-5 h-5 mr-2" />
-          View on GitHub
-        </Button>
-        <Button variant="outline" size="lg">
-          <ExternalLink className="w-5 h-5 mr-2" />
-          Live Demo
-        </Button>
-      </div>
-
-      {/* Features Grid */}
+      {/* Mission & Vision */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {features.map((feature, index) => {
-          const Icon = feature.icon;
-          return (
-            <Card key={index} className="border-primary/20 hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-primary/20 rounded-lg">
-                    <Icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </CardContent>
-            </Card>
-          );
-        })}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Target className="w-5 h-5 text-primary" />
+              <span>Our Mission</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              To transform urban noise pollution into a valuable renewable energy resource, 
+              creating sustainable power solutions for smart cities while contributing to 
+              environmental noise reduction and energy independence.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Award className="w-5 h-5 text-primary" />
+              <span>Our Vision</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              A future where every sound contributes to sustainable energy generation, 
+              making cities self-powered through innovative acoustic energy harvesting 
+              technology deployed at scale across urban infrastructure.
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Tech Stack */}
+      {/* Technical Specifications */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Technology Stack</CardTitle>
+          <CardTitle>Technical Specifications</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {techStack.map((tech, index) => {
-              const Icon = tech.icon;
-              return (
-                <div key={index} className="flex items-center space-x-3 p-3 bg-secondary/50 rounded-lg">
-                  <Icon className="w-5 h-5 text-primary" />
-                  <div>
-                    <p className="font-medium">{tech.name}</p>
-                    <p className="text-sm text-muted-foreground">{tech.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Project Structure */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Project Structure</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-secondary/50 p-4 rounded-lg">
-            <pre className="text-sm text-muted-foreground overflow-x-auto">
-{`src/
-├── components/          # React components
-│   ├── ui/             # shadcn/ui components
-│   ├── Dashboard.tsx   # Main dashboard
-│   ├── LiveMonitoring.tsx
-│   └── Navigation.tsx
-├── hooks/              # Custom React hooks
-│   ├── useApi.ts       # API data fetching
-│   └── useWebSocket.ts # WebSocket connection
-├── services/           # API services
-│   └── api.ts          # API client & mock data
-├── types/              # TypeScript definitions
-│   └── index.ts        # Data models
-├── pages/              # Route components
-└── lib/                # Utilities`}
-            </pre>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <h4 className="font-medium">Power Output</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Peak Power: 50W per m²</li>
+                <li>• Average Power: 15-25W per m²</li>
+                <li>• Voltage Range: 5-24V DC</li>
+                <li>• Efficiency: 85-94%</li>
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">Operating Conditions</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Frequency Range: 20Hz - 20kHz</li>
+                <li>• Sound Level: 40-120 dB</li>
+                <li>• Temperature: -20°C to +60°C</li>
+                <li>• Weather Resistance: IP67</li>
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">Installation</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Modular Design</li>
+                <li>• Easy Maintenance</li>
+                <li>• Wireless Monitoring</li>
+                <li>• 20+ Year Lifespan</li>
+              </ul>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -236,50 +189,58 @@ const About = () => {
       {/* Contributors */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Contributors</CardTitle>
+          <CardTitle className="flex items-center space-x-2">
+            <Users className="w-6 h-6 text-primary" />
+            <span>Our Team</span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contributors.map((contributor, index) => (
-              <Badge key={index} variant="outline" className="text-sm px-3 py-1">
-                {contributor}
-              </Badge>
+              <div key={index} className="text-center space-y-3">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto">
+                  {contributor.avatar}
+                </div>
+                <div>
+                  <h3 className="font-semibold">{contributor.name}</h3>
+                  <Badge variant="secondary" className="mt-1">
+                    {contributor.role}
+                  </Badge>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {contributor.description}
+                  </p>
+                </div>
+                <div className="flex justify-center space-x-2">
+                  <Github className="w-4 h-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+                  <Linkedin className="w-4 h-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+                  <Mail className="w-4 h-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+                </div>
+              </div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* License & Getting Started */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Getting Started</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="bg-secondary/50 p-3 rounded-lg">
-              <code className="text-sm">npm install</code>
+      {/* Impact */}
+      <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
+        <CardContent className="text-center py-12">
+          <h2 className="text-2xl font-bold mb-4">Making a Real Impact</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div>
+              <div className="text-3xl font-bold text-primary mb-2">500+</div>
+              <p className="text-sm text-muted-foreground">Devices Deployed</p>
             </div>
-            <div className="bg-secondary/50 p-3 rounded-lg">
-              <code className="text-sm">npm run dev</code>
+            <div>
+              <div className="text-3xl font-bold text-primary mb-2">50 MWh</div>
+              <p className="text-sm text-muted-foreground">Clean Energy Generated</p>
             </div>
-            <p className="text-sm text-muted-foreground">
-              The application will be available at localhost:5173
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>License</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Badge className="mb-3">MIT License</Badge>
-            <p className="text-sm text-muted-foreground">
-              This project is licensed under the MIT License. Feel free to use, modify, and distribute as needed.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+            <div>
+              <div className="text-3xl font-bold text-primary mb-2">25%</div>
+              <p className="text-sm text-muted-foreground">Noise Reduction</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -1,17 +1,28 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Zap, Volume2, TrendingUp, MapPin, AlertTriangle, CheckCircle } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { useEnergyData, useLocations, useDashboardStats } from '../hooks/useApi';
+import { useEnergyData, useLocations, useDashboardStats, useGeneratorData } from '../hooks/useApi';
 import LoadingSpinner from './LoadingSpinner';
-import GeneratorCards from './GeneratorCards';
 
 const Dashboard = () => {
   const { data: energyData, isLoading: energyLoading, error: energyError } = useEnergyData();
   const { data: locations, isLoading: locationsLoading, error: locationsError } = useLocations();
   const { data: stats, isLoading: statsLoading, error: statsError } = useDashboardStats();
+  const { data: generators, isLoading: generatorLoading, error: generatorError } = useGeneratorData();
+
+  // Multi-technology chart data
+  const multiTechData = [
+    { time: '00:00', piezo: 1.2, teng: 0.8, linear: 0.5, total: 2.5 },
+    { time: '04:00', piezo: 1.5, teng: 1.0, linear: 0.6, total: 3.1 },
+    { time: '08:00', piezo: 1.8, teng: 1.2, linear: 0.7, total: 3.7 },
+    { time: '12:00', piezo: 1.9, teng: 1.2, linear: 0.7, total: 3.8 },
+    { time: '16:00', piezo: 2.1, teng: 1.4, linear: 0.8, total: 4.3 },
+    { time: '20:00', piezo: 1.7, teng: 1.1, linear: 0.6, total: 3.4 },
+  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -31,7 +42,7 @@ const Dashboard = () => {
     }
   };
 
-  if (energyError || locationsError || statsError) {
+  if (energyError || locationsError || statsError || generatorError) {
     return (
       <div className="text-center py-20">
         <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
@@ -44,97 +55,173 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+    <div className="min-h-screen bg-black text-white p-6 space-y-6">
+      {/* Header Stats - 5 Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        <Card className="bg-gray-900 border-green-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Energy Generated</CardTitle>
-            <Zap className="h-4 w-4 text-primary" />
+            <CardTitle className="text-sm font-medium text-gray-300">Total Energy Harvested</CardTitle>
+            <Zap className="h-5 w-5 text-green-500" />
           </CardHeader>
           <CardContent>
             {statsLoading ? (
               <LoadingSpinner size="sm" />
             ) : (
               <>
-                <div className="text-2xl font-bold text-primary">{stats?.totalEnergyGenerated || 0} kWh</div>
-                <p className="text-xs text-muted-foreground">
-                  <TrendingUp className="inline w-3 h-3 mr-1" />
-                  +15% from yesterday
+                <div className="text-3xl font-bold text-green-400">22.3 kWh</div>
+                <p className="text-xs text-green-400 flex items-center mt-1">
+                  <span className="text-green-500 mr-1">+15%</span> from yesterday
                 </p>
               </>
             )}
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gray-900 border-blue-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Noise Level</CardTitle>
-            <Volume2 className="h-4 w-4 text-sound" />
+            <CardTitle className="text-sm font-medium text-gray-300">Piezo Output</CardTitle>
+            <Volume2 className="h-5 w-5 text-blue-500" />
           </CardHeader>
           <CardContent>
-            {statsLoading ? (
+            {generatorLoading ? (
               <LoadingSpinner size="sm" />
             ) : (
               <>
-                <div className="text-2xl font-bold">{stats?.averageNoiseLevel || 0} dB</div>
-                <p className="text-xs text-muted-foreground">
-                  Across Kerala locations
-                </p>
+                <div className="text-3xl font-bold text-white">12.8 kWh</div>
+                <p className="text-xs text-gray-400">High voltage, low current</p>
               </>
             )}
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gray-900 border-orange-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Devices</CardTitle>
-            <MapPin className="h-4 w-4 text-accent" />
+            <CardTitle className="text-sm font-medium text-gray-300">TENG Layer</CardTitle>
+            <Volume2 className="h-5 w-5 text-orange-500" />
           </CardHeader>
           <CardContent>
-            {statsLoading ? (
+            {generatorLoading ? (
               <LoadingSpinner size="sm" />
             ) : (
               <>
-                <div className="text-2xl font-bold">{stats?.activeDevices || 0}</div>
-                <p className="text-xs text-success">
-                  <CheckCircle className="inline w-3 h-3 mr-1" />
-                  All systems operational
-                </p>
+                <div className="text-3xl font-bold text-white">7.2 kWh</div>
+                <p className="text-xs text-gray-400">Friction energy capture</p>
               </>
             )}
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gray-900 border-red-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Efficiency Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-primary" />
+            <CardTitle className="text-sm font-medium text-gray-300">Linear Generator</CardTitle>
+            <MapPin className="h-5 w-5 text-red-500" />
+          </CardHeader>
+          <CardContent>
+            {generatorLoading ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <>
+                <div className="text-3xl font-bold text-white">2.3 kWh</div>
+                <p className="text-xs text-gray-400">Electromagnetic boost</p>
+              </>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-900 border-green-500/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-300">System Efficiency</CardTitle>
+            <TrendingUp className="h-5 w-5 text-green-500" />
           </CardHeader>
           <CardContent>
             {statsLoading ? (
               <LoadingSpinner size="sm" />
             ) : (
               <>
-                <div className="text-2xl font-bold">{stats?.efficiencyRate || 0}%</div>
-                <Progress value={stats?.efficiencyRate || 0} className="mt-2" />
+                <div className="text-3xl font-bold text-white">94.2%</div>
+                <Progress value={94.2} className="mt-2 bg-gray-700" />
               </>
             )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Generator Cards Section */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Multi-Technology Energy Output</h2>
-        <GeneratorCards />
-      </div>
+      {/* Multi-Technology Chart */}
+      <Card className="bg-gray-900 border-gray-700 text-white">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-white">Hybrid Energy Generation - Multi-Technology Output</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {energyLoading ? (
+            <div className="h-[400px] flex items-center justify-center">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={multiTechData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                <XAxis 
+                  dataKey="time" 
+                  stroke="#9CA3AF" 
+                  tick={{ fill: '#9CA3AF' }}
+                />
+                <YAxis 
+                  stroke="#9CA3AF" 
+                  tick={{ fill: '#9CA3AF' }}
+                  domain={[0, 8]}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1F2937', 
+                    border: '1px solid #374151',
+                    borderRadius: '8px',
+                    color: 'white'
+                  }}
+                  labelStyle={{ color: 'white' }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="piezo" 
+                  stroke="#3B82F6" 
+                  strokeWidth={2}
+                  name="Piezo Disc"
+                  dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="teng" 
+                  stroke="#F59E0B" 
+                  strokeWidth={2}
+                  name="TENG Layer"
+                  dot={{ fill: '#F59E0B', strokeWidth: 2, r: 4 }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="linear" 
+                  stroke="#EF4444" 
+                  strokeWidth={2}
+                  name="Linear Generator"
+                  dot={{ fill: '#EF4444', strokeWidth: 2, r: 4 }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="total" 
+                  stroke="#10B981" 
+                  strokeWidth={3}
+                  name="Total Output"
+                  dot={{ fill: '#10B981', strokeWidth: 2, r: 5 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="bg-gray-900 border-gray-700 text-white">
           <CardHeader>
-            <CardTitle>Energy Generation Over Time</CardTitle>
+            <CardTitle className="text-white">Energy Generation Over Time</CardTitle>
           </CardHeader>
           <CardContent>
             {energyLoading ? (
@@ -144,22 +231,22 @@ const Dashboard = () => {
             ) : (
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={energyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
-                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis dataKey="time" stroke="#9CA3AF" />
+                  <YAxis stroke="#9CA3AF" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))',
+                      backgroundColor: '#1F2937', 
+                      border: '1px solid #374151',
                       borderRadius: '8px'
                     }} 
                   />
                   <Line 
                     type="monotone" 
                     dataKey="energy" 
-                    stroke="hsl(var(--primary))" 
+                    stroke="#10B981" 
                     strokeWidth={3}
-                    dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
+                    dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -167,9 +254,9 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gray-900 border-gray-700 text-white">
           <CardHeader>
-            <CardTitle>Noise Levels by Kerala Areas</CardTitle>
+            <CardTitle className="text-white">Noise Levels by Kerala Areas</CardTitle>
           </CardHeader>
           <CardContent>
             {locationsLoading ? (
@@ -179,24 +266,24 @@ const Dashboard = () => {
             ) : (
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={locations}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                   <XAxis 
                     dataKey="name" 
-                    stroke="hsl(var(--muted-foreground))" 
+                    stroke="#9CA3AF" 
                     angle={-45}
                     textAnchor="end"
                     height={80}
                     fontSize={11}
                   />
-                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <YAxis stroke="#9CA3AF" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))',
+                      backgroundColor: '#1F2937', 
+                      border: '1px solid #374151',
                       borderRadius: '8px'
                     }} 
                   />
-                  <Bar dataKey="noise" fill="hsl(var(--sound))" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="noise" fill="#F59E0B" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -205,9 +292,9 @@ const Dashboard = () => {
       </div>
 
       {/* Location Status */}
-      <Card>
+      <Card className="bg-gray-900 border-gray-700 text-white">
         <CardHeader>
-          <CardTitle>Kerala Location Overview</CardTitle>
+          <CardTitle className="text-white">Kerala Location Overview</CardTitle>
         </CardHeader>
         <CardContent>
           {locationsLoading ? (
@@ -217,22 +304,22 @@ const Dashboard = () => {
           ) : (
             <div className="space-y-4">
               {locations?.map((location, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-secondary/50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border border-gray-700">
                   <div className="flex items-center space-x-4">
                     {getStatusIcon(location.status)}
                     <div>
-                      <h3 className="font-medium">{location.name}</h3>
-                      <p className="text-sm text-muted-foreground">{location.devices} active devices</p>
+                      <h3 className="font-medium text-white">{location.name}</h3>
+                      <p className="text-sm text-gray-400">{location.devices} active devices</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-6">
                     <div className="text-center">
-                      <p className="text-sm text-muted-foreground">Energy</p>
-                      <p className="font-bold text-primary">{location.energy} kW</p>
+                      <p className="text-sm text-gray-400">Energy</p>
+                      <p className="font-bold text-green-400">{location.energy} kW</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-sm text-muted-foreground">Noise</p>
-                      <p className="font-bold">{location.noise} dB</p>
+                      <p className="text-sm text-gray-400">Noise</p>
+                      <p className="font-bold text-white">{location.noise} dB</p>
                     </div>
                     <Badge variant="outline" className={getStatusColor(location.status)}>
                       {location.status}
