@@ -25,7 +25,7 @@ const Navigation = () => {
             <Link to="/" className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center">
                 <img 
-                  src="/lovable-uploads/8ad00399-ddaa-4921-bbf9-b1bfb1012db9.png" 
+                  src="/lovable-uploads/ee109677-cf2d-47d7-9615-cbb5e46cbd5a.png" 
                   alt="SONOVOLT Logo" 
                   className="w-8 h-8"
                 />

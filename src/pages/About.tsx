@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -38,7 +37,7 @@ const About = () => {
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center space-x-3">
           <img 
-            src="/lovable-uploads/8ad00399-ddaa-4921-bbf9-b1bfb1012db9.png" 
+            src="/lovable-uploads/ee109677-cf2d-47d7-9615-cbb5e46cbd5a.png" 
             alt="SONOVOLT Logo" 
             className="w-8 h-8"
           />
