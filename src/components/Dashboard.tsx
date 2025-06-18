@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Volume2, TrendingUp, MapPin, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Zap, Volume2, TrendingUp, MapPin, AlertTriangle, CheckCircle, Activity, Waves, Navigation, Cpu } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { useEnergyData, useLocations, useDashboardStats, useGeneratorData } from '../hooks/useApi';
 import LoadingSpinner from './LoadingSpinner';
@@ -216,6 +216,61 @@ const Dashboard = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Technology Component Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card className="bg-gradient-to-br from-blue-900/50 to-blue-800/30 border-blue-500/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center space-x-2">
+              <Activity className="h-6 w-6 text-blue-400" />
+              <CardTitle className="text-lg font-medium text-blue-300">Piezo Disc Array</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-blue-200 mb-2">Pressure from steps</p>
+            <div className="text-2xl font-bold text-white mb-1">High V, Low I</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-orange-900/50 to-orange-800/30 border-orange-500/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center space-x-2">
+              <Volume2 className="h-6 w-6 text-orange-400" />
+              <CardTitle className="text-lg font-medium text-orange-300">TENG Layer</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-orange-200 mb-2">Sliding/friction motion</p>
+            <div className="text-2xl font-bold text-white mb-1">Microamps</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-red-900/50 to-red-800/30 border-red-500/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center space-x-2">
+              <Navigation className="h-6 w-6 text-red-400" />
+              <CardTitle className="text-lg font-medium text-red-300">Linear Generator</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-red-200 mb-2">Vertical/shake motion</p>
+            <div className="text-2xl font-bold text-white mb-1">Moderate I</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 border-purple-500/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center space-x-2">
+              <Cpu className="h-6 w-6 text-purple-400" />
+              <CardTitle className="text-lg font-medium text-purple-300">Copper Layer</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-purple-200 mb-2">Capacitive buildup</p>
+            <div className="text-2xl font-bold text-white mb-1">Minor Charge</div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

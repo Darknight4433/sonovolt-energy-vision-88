@@ -20,7 +20,7 @@ const About = () => {
     },
     {
       name: 'Devanandan SS',
-      role: 'Data Scientist',
+      role: 'Lead Developer',
       description: 'Analytics and machine learning implementation',
       avatar: 'D'
     },
@@ -37,7 +37,11 @@ const About = () => {
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center space-x-3">
-          <Zap className="w-8 h-8 text-primary" />
+          <img 
+            src="/lovable-uploads/8ad00399-ddaa-4921-bbf9-b1bfb1012db9.png" 
+            alt="SONOVOLT Logo" 
+            className="w-8 h-8"
+          />
           <h1 className="text-3xl font-bold">About SONOVOLT</h1>
         </div>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">

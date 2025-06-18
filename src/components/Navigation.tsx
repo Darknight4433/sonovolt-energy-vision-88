@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Zap, BarChart3, Settings, Users, BookOpen, Bell, LogIn, Info } from 'lucide-react';
+import { BarChart3, Settings, Users, BookOpen, Bell, LogIn, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
@@ -9,7 +9,7 @@ const Navigation = () => {
   
   const navItems = [
     { path: '/', label: 'Dashboard', icon: BarChart3 },
-    { path: '/monitoring', label: 'Live Monitoring', icon: Zap },
+    { path: '/monitoring', label: 'Live Monitoring', icon: BarChart3 },
     { path: '/devices', label: 'Device Control', icon: Settings },
     { path: '/analytics', label: 'Analytics', icon: BarChart3 },
     { path: '/users', label: 'Users', icon: Users },
@@ -23,8 +23,12 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-energy to-sound rounded-lg flex items-center justify-center">
-                <Zap className="w-6 h-6 text-black" />
+              <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/8ad00399-ddaa-4921-bbf9-b1bfb1012db9.png" 
+                  alt="SONOVOLT Logo" 
+                  className="w-8 h-8"
+                />
               </div>
               <span className="text-xl font-bold text-energy">SONOVOLT</span>
             </Link>
