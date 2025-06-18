@@ -25,7 +25,7 @@ const About = () => {
     },
     {
       name: 'Niranjan Manu',
-      role: 'Research Engineer',
+      role: 'Hardware Engineer',
       description: 'Energy harvesting research and development',
       avatar: 'N'
     }

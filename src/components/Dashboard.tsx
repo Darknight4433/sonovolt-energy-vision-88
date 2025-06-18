@@ -58,10 +58,10 @@ const Dashboard = () => {
     <div className="min-h-screen bg-black text-white p-6 space-y-6">
       {/* Header Stats - 5 Cards */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-        <Card className="bg-gray-900 border-green-500/30 text-white">
+        <Card className="bg-green-900/40 border-green-500/50 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Total Energy Harvested</CardTitle>
-            <Zap className="h-5 w-5 text-green-500" />
+            <Zap className="h-5 w-5 text-green-400" />
           </CardHeader>
           <CardContent>
             {statsLoading ? (
@@ -77,10 +77,10 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-blue-500/30 text-white">
+        <Card className="bg-gray-800/60 border-gray-600/50 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Piezo Output</CardTitle>
-            <Volume2 className="h-5 w-5 text-blue-500" />
+            <Volume2 className="h-5 w-5 text-blue-400" />
           </CardHeader>
           <CardContent>
             {generatorLoading ? (
@@ -94,10 +94,10 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-orange-500/30 text-white">
+        <Card className="bg-gray-800/60 border-gray-600/50 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">TENG Layer</CardTitle>
-            <Volume2 className="h-5 w-5 text-orange-500" />
+            <Volume2 className="h-5 w-5 text-yellow-400" />
           </CardHeader>
           <CardContent>
             {generatorLoading ? (
@@ -111,10 +111,10 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-red-500/30 text-white">
+        <Card className="bg-gray-800/60 border-gray-600/50 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Linear Generator</CardTitle>
-            <MapPin className="h-5 w-5 text-red-500" />
+            <MapPin className="h-5 w-5 text-green-400" />
           </CardHeader>
           <CardContent>
             {generatorLoading ? (
@@ -128,10 +128,10 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-green-500/30 text-white">
+        <Card className="bg-gray-800/60 border-gray-600/50 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">System Efficiency</CardTitle>
-            <TrendingUp className="h-5 w-5 text-green-500" />
+            <TrendingUp className="h-5 w-5 text-green-400" />
           </CardHeader>
           <CardContent>
             {statsLoading ? (
@@ -147,7 +147,7 @@ const Dashboard = () => {
       </div>
 
       {/* Multi-Technology Chart */}
-      <Card className="bg-gray-900 border-gray-700 text-white">
+      <Card className="bg-gray-800/60 border-gray-600/50 text-white">
         <CardHeader>
           <CardTitle className="text-xl font-bold text-white">Hybrid Energy Generation - Multi-Technology Output</CardTitle>
         </CardHeader>
@@ -219,7 +219,7 @@ const Dashboard = () => {
 
       {/* Technology Component Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-blue-900/50 to-blue-800/30 border-blue-500/30 text-white">
+        <Card className="bg-blue-900/30 border-blue-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center space-x-2">
               <Activity className="h-6 w-6 text-blue-400" />
@@ -232,7 +232,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-orange-900/50 to-orange-800/30 border-orange-500/30 text-white">
+        <Card className="bg-orange-900/30 border-orange-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center space-x-2">
               <Volume2 className="h-6 w-6 text-orange-400" />
@@ -245,7 +245,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-red-900/50 to-red-800/30 border-red-500/30 text-white">
+        <Card className="bg-red-900/30 border-red-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center space-x-2">
               <Navigation className="h-6 w-6 text-red-400" />
@@ -258,7 +258,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 border-purple-500/30 text-white">
+        <Card className="bg-purple-900/30 border-purple-500/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center space-x-2">
               <Cpu className="h-6 w-6 text-purple-400" />
@@ -274,7 +274,7 @@ const Dashboard = () => {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-gray-900 border-gray-700 text-white">
+        <Card className="bg-gray-800/60 border-gray-600/50 text-white">
           <CardHeader>
             <CardTitle className="text-white">Energy Generation Over Time</CardTitle>
           </CardHeader>
@@ -309,7 +309,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-gray-700 text-white">
+        <Card className="bg-gray-800/60 border-gray-600/50 text-white">
           <CardHeader>
             <CardTitle className="text-white">Noise Levels by Kerala Areas</CardTitle>
           </CardHeader>
@@ -347,7 +347,7 @@ const Dashboard = () => {
       </div>
 
       {/* Location Status */}
-      <Card className="bg-gray-900 border-gray-700 text-white">
+      <Card className="bg-gray-800/60 border-gray-600/50 text-white">
         <CardHeader>
           <CardTitle className="text-white">Kerala Location Overview</CardTitle>
         </CardHeader>
